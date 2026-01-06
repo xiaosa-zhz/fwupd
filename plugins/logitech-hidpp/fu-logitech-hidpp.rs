@@ -102,6 +102,7 @@ enum FuLogitechHidppSubid {
     ErrorMsg_20 = 0xFF,
 }
 
+#[repr(u8)]
 enum FuLogitechHidppBootloaderCmd {
     GeneralError = 0x01,
     Read = 0x10,
@@ -194,4 +195,20 @@ enum FuLogitechHidppStatus {
     BadFirmware,
     FirmwareCheckFailure,
     BlockedCommand,
+}
+
+enum FuStructLogitechHidppBootloaderTexasCmd {
+    EraseAll,
+    FlashRamBuffer = 1,
+    ClearRamBuffer = 2,
+    ComputeCrc = 3,
+}
+
+/* packet to and from device */
+#[derive(New, Parse)]
+struct FuStructLogitechHidppBootloaderPkt {
+    cmd: FuLogitechHidppBootloaderCmd,
+    addr: u16le,
+    len: u8,
+    data: [u8; 28],
 }
